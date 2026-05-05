@@ -86,7 +86,7 @@ export async function GET(req: Request) {
         },
       });
 
-      const projects = userProjects.map(up => ({
+      const projects = userProjects.map((up: any) => ({
         id: up.project.id,
         name: up.project.name,
         summary: up.project.summary,
