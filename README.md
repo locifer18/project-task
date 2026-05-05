@@ -3,13 +3,6 @@
 A full-stack **Project & Task Management System** built with **Next.js 16**, **PostgreSQL**, and **Prisma ORM** — featuring role-based access control, a drag-and-drop Kanban board, real-time notifications, file uploads, and a rich project overview dashboard.
 
 ---
-
-## Live Demo
-
-> Add your deployment URL here after deploying
-
----
-
 ## Features
 
 ### Authentication & Security
