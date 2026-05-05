@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
     // Send DB notifications to all members
     await Promise.all(
-      users.map((user) =>
+      users.map((user: any) =>
         db.notification.create({
           data: {
             userId: user.id,
