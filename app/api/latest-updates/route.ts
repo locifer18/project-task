@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     });
 
     // Get user IDs
-    const userIds = projectUser?.members.map((m) => m.userId);
+    const userIds = projectUser?.members.map((m: any) => m.userId) ?? [];
 
     // Fetch users with roles
     const users = await db.user.findMany({
