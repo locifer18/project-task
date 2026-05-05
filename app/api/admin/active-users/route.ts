@@ -32,7 +32,7 @@ export async function GET(req: Request) {
     });
 
     // Sort users: active (clocked in) first, then inactive
-    const sortedUsers = users.sort((a, b) => {
+    const sortedUsers = users.sort((a: any, b: any) => {
       return a.name.localeCompare(b.name);
     });
 
