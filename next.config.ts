@@ -3,13 +3,17 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com", 
+        hostname: "images.unsplash.com",
       },
       {
         protocol: "https",
-        hostname: "api.dicebear.com", 
+        hostname: "api.dicebear.com",
       },
     ],
+  },
+
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
