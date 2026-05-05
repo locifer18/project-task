@@ -1,5 +1,4 @@
 import db from "@/lib/client";
-import { sendNotification } from "@/lib/notification-service";
 import { sendProjectAssignmentEmail } from "@/lib/mailer";
 
 //get member of a project
@@ -87,66 +86,6 @@ export async function POST(req: Request) {
             },
         });
 
-        // Send notification to the user
-        // await sendNotification({
-        //     userId: newMember.userId,
-        //     title: "New Project Assignment",
-        //     message: `You have been assigned to project "${newMember.project.name}" as ${newMember.role}${isLeader ? ' (Team Leader)' : ''}.`,
-        //     type: "PROJECT_ASSIGNED",
-        //     meta: {
-        //         projectId,
-        //         projectName: newMember.project.name,
-        //         role: newMember.role,
-        //         isLeader: newMember.isLeader,
-        //     },
-        // });
-
-        // // Send email notification
-        // if (newMember.user.email) {
-        //     await sendProjectAssignmentEmail(
-        //         newMember.user.email,
-        //         newMember.user.name,
-        //         newMember.project.name,
-        //         newMember.role || "Member",
-        //         newMember.isLeader
-        //     ).catch((err) => console.error("Email notification failed:", err));
-        // }
-
-        const assignedUser = await db.user.findUnique({
-            where: { id: newMember.userId },
-            select: { id: true, name: true, email: true, role: true },
-        });
-
-        const notificationRow = await db.notificationlist.findFirst({
-            where: { package: "notificationlist" },
-        });
-
-        if (notificationRow && assignedUser) {
-            const notifications = notificationRow.notification as any[];
-            const notification = notifications.find((n) => n.key === "Project_Member_Added");
-
-            if (notification) {
-                const notifTitle = "Project_Member_Added";
-                const notifMessage = `You have been assigned to project "${newMember.project.name}" as ${newMember.role}${newMember.isLeader ? " (Team Leader)" : ""}.`;
-
-                await db.notification.create({
-                    data: {
-                        userId: assignedUser.id,
-                        title: notifTitle,
-                        message: notifMessage,
-                        type: "PROJECT",
-                        meta: { projectId, projectName: newMember.project.name, role: newMember.role, isLeader: newMember.isLeader },
-                    },
-                });
-
-                if (assignedUser.email) {
-                    await sendProjectAssignmentEmail(
-                        assignedUser.email, assignedUser.name, newMember.project.name,
-                        newMember.role, newMember.isLeader
-                    ).catch((err) => console.error("Email failed:", assignedUser.id, err));
-                }
-            }
-        }
 
         return Response.json({
             success: true,

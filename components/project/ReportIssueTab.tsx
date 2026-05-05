@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 
 export default function ReportIssueTab({ projectId }: { projectId: string }) {
-  const [tasks, setTasks] = useState([]);
-  const [reports, setReports] = useState([]);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showClientIssueModal, setShowClientIssueModal] = useState(false);
@@ -22,7 +22,7 @@ export default function ReportIssueTab({ projectId }: { projectId: string }) {
   });
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [projectClient, setProjectClient] = useState(null);
+  const [projectClient, setProjectClient] = useState<any>(null);
 
   const fetchAdmins = async () => {
     try {

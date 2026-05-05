@@ -113,7 +113,7 @@ function AssetsCard({ imageLink, userImage, url, title, author, viewLink, handle
               </div>
               <div onClick={() => {
                 if (type === "link") {
-                  copyTextToClipboard(url);
+                  if (url) copyTextToClipboard(url);
                 } else {
                   viewLink();
                 }
@@ -202,7 +202,7 @@ export default function AssetsTab({ projectId }: { projectId: string }) {
       const response = await fetch(`/api/project/${projectId}`);
       const data = await response.json();
       if (data.success && data.project.members) {
-        const clientMember = data.project.members.find(member => member.user.role === 'CLIENT');
+        const clientMember = data.project.members.find((member: any) => member.user.role === 'CLIENT');
         if (clientMember) {
           setClientId(clientMember.user.id);
         }

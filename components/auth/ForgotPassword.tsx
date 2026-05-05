@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     //     }
     // };
 
-    const handleSendOtp = async (e) => {
+    const handleSendOtp = async (e: any) => {
         e.preventDefault();
         setLoading(true);
         setError("");
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    email: trimmedEmail,   // ✅ CORRECT KEY
+                    email: trimmedEmail,
                     action: "send-otp",
                 }),
             });
@@ -62,71 +62,45 @@ const ForgotPassword = () => {
             if (!res.ok) throw new Error(data.error || "Failed to send OTP");
 
             setStep(2);
-        } catch (err) {
+        } catch (err: any) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
     };
 
-    // const handleResetPassword = async (e) => {
-    //     e.preventDefault();
-    //     setLoading(true);
-    //     setError("");
-    //     const TrimEmail = email.trim()
-    //     const TrimPass = newPassword.trim()
-    //     const TrimOtp = otp.trim()
-    //     try {
-    //         const res = await fetch("/api/auth/forgot-password", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ TrimEmail, TrimOtp, TrimPass, action: "reset-password" }),
-    //         });
+    const handleResetPassword = async (e: any) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
 
-    //         const data = await res.json();
-    //         if (!res.ok) throw new Error(data.error || "Failed to reset password");
+        const trimmedEmail = email.trim();
+        const trimmedOtp = otp.trim();
+        const trimmedPassword = newPassword.trim();
 
-    //         toast.success("Password reset successfully!");
-    //         window.location.href = "/signin";
-    //     } catch (err) {
-    //         setError(err.message);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+        try {
+            const res = await fetch("/api/auth/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: trimmedEmail,        
+                    otp: trimmedOtp,            
+                    newPassword: trimmedPassword, 
+                    action: "reset-password",
+                }),
+            });
 
-    const handleResetPassword = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setError("");
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to reset password");
 
-  const trimmedEmail = email.trim();
-  const trimmedOtp = otp.trim();
-  const trimmedPassword = newPassword.trim();
-
-  try {
-    const res = await fetch("/api/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: trimmedEmail,        // ✅
-        otp: trimmedOtp,            // ✅
-        newPassword: trimmedPassword, // ✅
-        action: "reset-password",
-      }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Failed to reset password");
-
-    toast.success("Password reset successfully!");
-    window.location.href = "/signin";
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+            toast.success("Password reset successfully!");
+            window.location.href = "/signin";
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="flex flex-col flex-1 lg:w-1/2 w-full">

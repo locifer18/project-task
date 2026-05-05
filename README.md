@@ -50,10 +50,6 @@ A full-stack **Project & Task Management System** built with **Next.js 16**, **P
 - Recent projects with progress bars
 - Overdue tasks highlighted with due dates
 
-### Notifications
-- In-app notifications for task assignments, project updates, and payment events
-- DB-persisted notification history
-
 ---
 
 ## Tech Stack
@@ -208,7 +204,6 @@ Milestone     — title, dueDate, status
 DesignSystem  — colors, fonts, brandName, theme, keyPages
 ProjectTechnology — tech (JSON array of {key, value})
 LatestUpdate  — title, date, projectId
-Notification  — userId, title, message, type, isRead
 ```
 
 ---
@@ -216,12 +211,11 @@ Notification  — userId, title, message, type, isRead
 ## Deployment (Railway)
 
 1. Push code to GitHub
-2. Create new project on [Railway](https://railway.app)
-3. Add a PostgreSQL plugin
-4. Set all environment variables
-5. Set build command: `npm run build`
-6. Set start command: `npm start`
-7. Run `npx prisma db push` via Railway shell after first deploy
+2. Add a PostgreSQL plugin
+3. Set all environment variables
+4. Set build command: `npm run build`
+5. Set start command: `npm start`
+6. Run `npx prisma db push` via Railway shell after first deploy
 
 
 ## Author

@@ -125,7 +125,7 @@ export default function TeamTab({ projectId }: { projectId: string }) {
       if (data.users) {
         const currentMemberIds = members.map(m => m.userId);
         const available = data.users.filter(
-          u => !currentMemberIds.includes(u.id)
+          (u: any) => !currentMemberIds.includes(u.id)
         );
         setAvailableUsers(available);
       }

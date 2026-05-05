@@ -2,35 +2,37 @@ import db from "@/lib/client";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-    const url = new URL(req.url)
-    const searchParams = url.searchParams
-    const projectId = searchParams.get("projectId")
-    const id = searchParams.get("id")
-    try {
+  const url = new URL(req.url)
+  const searchParams = url.searchParams
+  const projectId = searchParams.get("projectId")
+  const id = searchParams.get("id")
+  try {
     if (!projectId) {
-        return NextResponse.json({success: false, response: "Provide a project ID"}, {status: 400})
+      return NextResponse.json({ success: false, response: "Provide a project ID" }, { status: 400 })
     }
 
     if (id) {
-        const data = await db.workDone.findMany({
-            where: {id: id}
-        })
-        return NextResponse.json({success: true, response: data}, {status: 200})
+      const data = await db.workDone.findMany({
+        where: { id: id }
+      })
+      return NextResponse.json({ success: true, response: data }, { status: 200 })
     }
 
     const data = await db.workDone.findMany({
-        where: {projectId: projectId},
-        include: {completedBy: {
-            select: {
-                name: true, id: true, image: true, department: true
-            }
-        }}
+      where: { projectId: projectId },
+      include: {
+        completedBy: {
+          select: {
+            name: true, id: true, image: true, department: true
+          }
+        }
+      }
     })
-    return NextResponse.json({success: true, response: data}, {status: 200})
-}
-catch (err) {
-        return NextResponse.json({success: false, response: err}, {status: 400})
-}
+    return NextResponse.json({ success: true, response: data }, { status: 200 })
+  }
+  catch (err) {
+    return NextResponse.json({ success: false, response: err }, { status: 400 })
+  }
 }
 
 /**
@@ -148,18 +150,26 @@ export async function DELETE(req: Request) {
     const taskId = searchParams.get("taskId");
 
     if (id) {
-        await db.workDone.delete({
-          where: { id },
-        });
-    return NextResponse.json(
-      { message: "workDone deleted successfully" },
-      { status: 200 }
-    );
-}
-        await db.workDone.delete({
-          where: { taskId: taskId },
-        });
+      await db.workDone.delete({
+        where: { id },
+      });
+      return NextResponse.json(
+        { message: "workDone deleted successfully" },
+        { status: 200 }
+      );
+    }
     
+    if (!taskId) {
+      return NextResponse.json(
+        { error: "workDone id or taskId is required" },
+        { status: 400 }
+      );
+    }
+    
+    await db.workDone.delete({
+      where: { taskId: taskId },
+    });
+
 
     return NextResponse.json(
       { message: "workDone deleted successfully" },

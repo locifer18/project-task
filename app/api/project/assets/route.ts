@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         const url = formData.get("url") as string | null;
 
         let uploadResult: any;
-        
+
         if (!projectId || !type) {
             return Response.json(
                 { success: false, message: "projectId, type are required" },
@@ -32,9 +32,9 @@ export async function POST(req: Request) {
             );
         }
 
-        if (hasFile) {            
+        if (hasFile) {
             const allowedTypes = ["image", "zip", "document"];
-    
+
             if (!allowedTypes.includes(type)) {
                 return Response.json(
                     { success: false, message: "Invalid type" },
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             // Convert File -> Buffer
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
-    
+
             // Cloudinary Upload
             uploadResult = await new Promise((resolve, reject) => {
                 cloudinary.uploader
@@ -131,7 +131,7 @@ export async function DELETE(req: Request) {
         }
 
         // Only delete from Cloudinary if it's an actual uploaded file (not a link)
-        if (!asset.publicId.startsWith("LINK_")) {
+        if (asset?.publicId && !asset.publicId.startsWith("LINK_")) {
             await cloudinary.uploader.destroy(asset.publicId);
         }
 

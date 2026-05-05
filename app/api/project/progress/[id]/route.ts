@@ -7,7 +7,7 @@ export async function PATCH(req:Request) {
   const id = searchParams.get('id');
   const { progress } = await req.json();
 
-  if (!session) {
+  if (!session || !id) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -39,6 +39,10 @@ export async function PATCH(req:Request) {
 export async function GET(req:Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');
+
+  if (!id) {
+    return Response.json({ error: "Invalid project ID" }, { status: 400 });
+  }
 
   const project = await db.project.findUnique({
     where: { id },

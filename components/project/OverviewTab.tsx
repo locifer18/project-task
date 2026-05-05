@@ -49,17 +49,17 @@ interface OverviewTabProps {
 
 
 // Handles comma-separated string arrays (e.g., Colors, Themes)
-const ArrayInput = ({ label, value = [], onChange, placeholder }) => {
-  const handleChange = (e) => {
+const ArrayInput = ({ label, value = [], onChange, placeholder }: any) => {
+  const handleChange = (e: any) => {
     const val = e.target.value;
     // Allow typing by updating if it ends with a comma or has content
     if (val.endsWith(', ') || !val.includes(',')) {
-      onChange(val.split(',').map(s => s.trim()).filter(Boolean));
+      onChange(val.split(',').map((s: string) => s.trim()).filter(Boolean));
     } else {
-      // Just pass the raw split for immediate updates, 
+      // Just pass the raw split for immediate updates,
       // but strictly this logic relies on the parent handling the array.
       // For a perfect UX, we'd use local state, but mimicking original logic:
-      onChange(val.split(',').map(s => s.trim()));
+      onChange(val.split(',').map((s: string) => s.trim()));
     }
   };
 
@@ -80,8 +80,8 @@ const ArrayInput = ({ label, value = [], onChange, placeholder }) => {
   );
 };
 
-const KeyValueInput = ({ label, value, onChange }) => {
-  const handleChange = (index, field, newValue) => {
+const KeyValueInput = ({ label, value, onChange }: any) => {
+  const handleChange = (index: number, field: string, newValue: string) => {
     const updated = { ...value };
     const keys = Object.keys(updated);
     const key = keys[index];
@@ -101,7 +101,7 @@ const KeyValueInput = ({ label, value, onChange }) => {
     onChange({ ...value, "": "" });
   };
 
-  const removeRow = (keyToRemove) => {
+  const removeRow = (keyToRemove: string) => {
     const updated = { ...value };
     delete updated[keyToRemove];
     onChange(updated);
@@ -126,7 +126,7 @@ const KeyValueInput = ({ label, value, onChange }) => {
           />
           <input
             type="text"
-            value={val}
+            value={val as string}
             onChange={(e) =>
               handleChange(index, "value", e.target.value)
             }
@@ -156,18 +156,18 @@ const KeyValueInput = ({ label, value, onChange }) => {
 
 // --- 2. Main Component ---
 
-const DesignerModal = ({ showModal, projectData, currentUser }) => {
+const DesignerModal = ({ showModal, projectData, currentUser }: any) => {
   const [loading, setLoading] = useState(false);
-  const [designSystemData, setDesignSystemData] = useState({
+  const [designSystemData, setDesignSystemData] = useState<any>({
     brandName: '', brandFeel: '', colors: [], fonts: {},
     designType: [], layoutStyle: {}, contentTone: [],
     visualGuidelines: {}, theme: [], keyPages: [], uniqueness: {}
   });
 
   // Helper to safely parse API response
-  const parseDesignData = (data) => {
-    const ensureArray = (arr) => Array.isArray(arr) ? arr.filter(i => i && i !== 'null') : [];
-    const ensureObject = (obj) => (typeof obj === 'object' && obj !== null) ? obj : {};
+  const parseDesignData = (data: any) => {
+    const ensureArray = (arr: any) => Array.isArray(arr) ? arr.filter((i: any) => i && i !== 'null') : [];
+    const ensureObject = (obj: any) => (typeof obj === 'object' && obj !== null) ? obj : {};
 
     return {
       brandName: data.brandName || '',
@@ -203,11 +203,11 @@ const DesignerModal = ({ showModal, projectData, currentUser }) => {
 
 
   // Generic handler for design system updates
-  const updateDesignSystem = (field, value) => {
-    setDesignSystemData(prev => ({ ...prev, [field]: value }));
+  const updateDesignSystem = (field: string, value: any) => {
+    setDesignSystemData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -272,31 +272,31 @@ const DesignerModal = ({ showModal, projectData, currentUser }) => {
               <ArrayInput
                 label="Colors (comma-separated hex codes)"
                 value={designSystemData.colors}
-                onChange={(val) => updateDesignSystem('colors', val)}
+                onChange={(val: any) => updateDesignSystem('colors', val)}
                 placeholder="#FF5733,#33FF57"
               />
               <ArrayInput
                 label="Design Type (comma-separated)"
                 value={designSystemData.designType}
-                onChange={(val) => updateDesignSystem('designType', val)}
+                onChange={(val: any) => updateDesignSystem('designType', val)}
                 placeholder="Minimalist, Corporate"
               />
               <ArrayInput
                 label="Content Tone (comma-separated)"
                 value={designSystemData.contentTone}
-                onChange={(val) => updateDesignSystem('contentTone', val)}
+                onChange={(val: any) => updateDesignSystem('contentTone', val)}
                 placeholder="Professional, Friendly"
               />
               <ArrayInput
                 label="Theme (comma-separated)"
                 value={designSystemData.theme}
-                onChange={(val) => updateDesignSystem('theme', val)}
+                onChange={(val: any) => updateDesignSystem('theme', val)}
                 placeholder="Dark, Light"
               />
               <ArrayInput
                 label="Key Pages (comma-separated)"
                 value={designSystemData.keyPages}
-                onChange={(val) => updateDesignSystem('keyPages', val)}
+                onChange={(val: any) => updateDesignSystem('keyPages', val)}
                 placeholder="Home, About, Contact"
               />
 
@@ -304,22 +304,22 @@ const DesignerModal = ({ showModal, projectData, currentUser }) => {
               <KeyValueInput
                 label='Fonts'
                 value={designSystemData.fonts}
-                onChange={(val) => updateDesignSystem('fonts', val)}
+                onChange={(val: any) => updateDesignSystem('fonts', val)}
               />
               <KeyValueInput
                 label='Layout Style'
                 value={designSystemData.layoutStyle}
-                onChange={(val) => updateDesignSystem('layoutStyle', val)}
+                onChange={(val: any) => updateDesignSystem('layoutStyle', val)}
               />
               <KeyValueInput
                 label='Visual Guidelines'
                 value={designSystemData.visualGuidelines}
-                onChange={(val) => updateDesignSystem('visualGuidelines', val)}
+                onChange={(val: any) => updateDesignSystem('visualGuidelines', val)}
               />
               <KeyValueInput
                 label='Uniqueness'
                 value={designSystemData.uniqueness}
-                onChange={(val) => updateDesignSystem('uniqueness', val)}
+                onChange={(val: any) => updateDesignSystem('uniqueness', val)}
               />
             </div>
 
@@ -350,10 +350,10 @@ const DesignerModal = ({ showModal, projectData, currentUser }) => {
 };
 
 
-const EditModal = ({ showModel, projectData }) => {
+const EditModal = ({ showModel, projectData }: any) => {
   const [loading, setLoading] = useState(false);
-  const [admins, setAdmins] = useState([]);
-  const [techStack, setTechStack] = useState([]);
+  const [admins, setAdmins] = useState<any[]>([]);
+  const [techStack, setTechStack] = useState<{ key: string; value: string }[]>([]);
   const [newTech, setNewTech] = useState({ key: '', value: '' });
   const [customCategory, setCustomCategory] = useState("");
   const [currentPhase, setCurrentPhase] = useState(projectData.currentPhase || '');
@@ -398,7 +398,7 @@ const EditModal = ({ showModel, projectData }) => {
     }
   };
 
-  const removeTech = (index) => {
+  const removeTech = (index: number) => {
     setTechStack(techStack.filter((_, i) => i !== index));
   };
 
@@ -1049,7 +1049,7 @@ export default function OverviewTab({ project }: OverviewTabProps) {
         toast.error(data.message || 'Failed to delete project');
       }
     } catch (e) {
-      toast.error('Failed to delete project', e);
+      toast.error('Failed to delete project', e as any);
     } finally {
 
     }
@@ -1057,7 +1057,7 @@ export default function OverviewTab({ project }: OverviewTabProps) {
 
   if (!project) return null;
 
-  const HoverReveal = ({ text }) => (
+  const HoverReveal = ({ text }: any) => (
     <div className="group relative max-w-32">
       <span className="block truncate text-sm font-medium text-gray-900 dark:text-gray-100 transition-all duration-300 group-hover:max-w-xs group-hover:whitespace-normal group-hover:bg-gray-100 dark:group-hover:bg-gray-800 group-hover:px-2 group-hover:py-0.5 group-hover:rounded-md">
         {text}
@@ -1275,7 +1275,7 @@ export default function OverviewTab({ project }: OverviewTabProps) {
             <BudgetModal
               isOpen={showBudgetModal}
               onClose={() => setShowBudgetModal(false)}
-              clientId={clientId}
+              clientId={clientId || ''}
               projectId={project.id}
               currentData={budgetData}
               onUpdate={() => {
@@ -1388,7 +1388,7 @@ export default function OverviewTab({ project }: OverviewTabProps) {
                       Colors
                     </h3>
                     <div className="flex gap-2 flex-wrap">
-                      {designSystemInfo.colors.map((color, index) => (
+                      {designSystemInfo.colors.map((color: string, index: number) => (
                         <div
                           key={index}
                           className="group flex items-center h-8 w-8 hover:w-24 px-2 rounded-full border-2 border-gray-200 dark:border-gray-600 transition-all duration-300 ease-out cursor-pointer overflow-hidden"

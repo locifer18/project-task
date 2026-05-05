@@ -55,8 +55,8 @@ export async function POST(req: Request) {
       }
     });
 
-    // 🔹 Get user IDs
-    const userIds = projectUser.members.map((m) => m.userId);
+    // Get user IDs
+    const userIds = projectUser?.members.map((m) => m.userId);
 
     // Fetch users with roles
     const users = await db.user.findMany({
@@ -78,29 +78,6 @@ export async function POST(req: Request) {
         })
       )
     );
-
-    // await Promise.all(
-    //   projectUser.members.map((member) =>
-    //     fetch(`${SOCKET_URL}:${SOCKET_PORT}/emit`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         clientId: member.userId,
-    //         notification: {
-    //           title: "Project Update",
-    //           message: "A new project update has been posted.",
-    //           section: "/client",
-    //           createdAt: new Date(),
-    //           isRead: false,
-    //         },
-    //       }),
-    //     }).catch((err) =>
-    //       console.error("Socket emit failed:", member.userId, err)
-    //     )
-    //   )
-    // );
 
     return NextResponse.json({ success: true, update });
   } catch (error) {

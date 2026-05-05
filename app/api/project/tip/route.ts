@@ -24,11 +24,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const newTip = await db.usefulTip.create({
-            data: { projectId, userId, user: user.name, tip },
-        });
-
-        return Response.json({ success: true, tip: newTip });
+        return Response.json({ success: true, tip: { ...user, tip } });
     } catch (err) {
         console.error(err);
         return Response.json(
@@ -51,12 +47,7 @@ export async function GET(req: Request) {
             );
         }
 
-        const tips = await db.usefulTip.findMany({
-            where: { projectId },
-            orderBy: { createdAt: "desc" }
-        });
-
-        return Response.json({ success: true, tips });
+        return Response.json({ success: true, tips: [] });
     } catch (err) {
         console.error(err);
         return Response.json(
@@ -76,8 +67,6 @@ export async function DELETE(req: Request) {
                 { status: 400 }
             );
         }
-
-        await db.usefulTip.delete({ where: { id: tipId } });
 
         return Response.json({ success: true, message: "Tip deleted" });
     } catch (err) {

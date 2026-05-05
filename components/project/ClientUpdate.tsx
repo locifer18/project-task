@@ -32,7 +32,7 @@ export function MinimalCard({
     >
       {/* Delete Icon */}
       <button
-        onClick={() => onDelete(id)}
+        onClick={() => onDelete && onDelete(id)}
         aria-label="Delete"
         className="
           absolute right-4 top-2
@@ -205,7 +205,7 @@ function ClientUpdate({ projectId }: { projectId: string }) {
       {
         data.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-6">
-            {data.map((card, index) => (
+            {data.map((card: any, index: number) => (
               <MinimalCard key={index} id={card.id} date={card.date} createdBy={card.createdBy} description={card.title} onDelete={deleteProject} />
             ))}
           </div>

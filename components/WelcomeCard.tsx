@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function WelcomeCard() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     // fetch('/api/user', { credentials: 'include' })

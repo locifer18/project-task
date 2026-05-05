@@ -91,10 +91,10 @@ console.log(projectId);
       },
       dashboardData
     });
-  } catch (err) {
-    console.log(err.message);
+  } catch (err: any) {
+    console.log(err?.message);
     return Response.json(
-      { success: false, message: "Failed to fetch project overview", err },
+      { success: false, message: "Failed to fetch project overview" },
       { status: 500 }
     );
   }

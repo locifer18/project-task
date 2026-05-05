@@ -75,7 +75,7 @@ const NewTaskModal: React.FC<{
   isLoading: boolean;
   onClose: () => void;
   newTask: NewTaskShape;
-  setNewTask: (t: NewTaskShape) => void;
+  setNewTask: React.Dispatch<React.SetStateAction<NewTaskShape>>;
   handleCreateTask: () => void;
   handleAddTag: (tag: string) => void;
   handleRemoveTag: (tag: string) => void;
@@ -84,10 +84,10 @@ const NewTaskModal: React.FC<{
 }> = ({ isOpen, onClose, newTask, isLoading, setNewTask, handleCreateTask, handleAddTag, handleRemoveTag, currentUser, mode }) => {
   if (!isOpen) return null;
   const removeAttachment = (index: number) => {
-    setNewTask((prev) => {
+    setNewTask((prev: any) => {
       if (!prev.attachments) return prev;
 
-      const updated = prev.attachments.filter((_, i) => i !== index);
+      const updated = prev.attachments.filter((_: any, i: number) => i !== index);
 
       return {
         ...prev,
@@ -217,7 +217,7 @@ const NewTaskModal: React.FC<{
               const files = Array.from(e.dataTransfer.files || []);
               if (!files.length) return;
 
-              setNewTask((prev) => {
+              setNewTask((prev: any) => {
                 const existing = prev.attachments ?? [];
 
                 return {
@@ -248,7 +248,7 @@ const NewTaskModal: React.FC<{
                 const files = Array.from(e.target.files || []);
                 if (!files.length) return;
 
-                setNewTask((prev) => {
+                setNewTask((prev: any) => {
                   const existing = prev.attachments ?? [];
 
                   return {
@@ -327,7 +327,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
     dueDate: '',
     tags: [],
     status: 'assigned',
-    attachments: null,
+    attachments: [],
     projectId: ''
   });
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -424,7 +424,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
             priority: draggedTask.priority,
             dueDate: draggedTask.dueDate,
             tags: draggedTask.tags,
-            userId: currentUser.id,
+            userId: currentUser!.id,
           }),
         })
       }
@@ -459,7 +459,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
       dueDate: task.dueDate.split("T")[0],
       tags: task.tags,
       status: task.status,
-      attachments: null,
+      attachments: [],
       projectId: task.Project.id
     });
 
@@ -594,7 +594,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
       const data = await res.json();
 
       if (data.success) {
-        const updatedComments = selectedTask.comments.map(c =>
+        const updatedComments = selectedTask.comments.map((c: any) =>
           c.id === commentId ? { ...c, content: newContent } : c
         );
 
@@ -627,7 +627,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
       const data = await res.json();
 
       if (data.success) {
-        const updatedComments = selectedTask.comments.filter(c => c.id !== commentId);
+        const updatedComments = selectedTask.comments.filter((c: any) => c.id !== commentId);
 
         setTasks(tasks.map(task =>
           task.id === selectedTask.id
@@ -729,7 +729,7 @@ export default function KanbanTab({ projectId }: KanbanTabProps) {
       formData.append("status", newTask.status);
       formData.append("tags", newTask.tags.join(","));
       formData.append("projectId", projectId);
-      formData.append("employeeId", currentUser.id);
+      formData.append("employeeId", currentUser!.id);
 
       if (newTask.attachments?.length) {
         newTask.attachments.forEach((file) => {

@@ -47,7 +47,7 @@ export default function TicketsTab({ projectId }: { projectId: string }) {
       const res = await fetch(`/api/project/member?projectId=${projectId}`);
       const data = await res.json();
       if (data.success) {
-        const userIds = data.members.map(member => member.userId);
+        const userIds = data.members.map((member: any) => member.userId);
         // console.log(data.members, "teammates", userIds);
 
         setTeammates(data.members);

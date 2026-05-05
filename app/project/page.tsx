@@ -46,7 +46,7 @@ export default function ProjectsPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchUser, setSearchUser] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [techStack, setTechStack] = useState([]);
+  const [techStack, setTechStack] = useState<{ key: string; value: string }[]>([]);
   const [newTech, setNewTech] = useState({ key: '', value: '' });
   const [currentPhase, setCurrentPhase] = useState('');
   const [customCategory, setCustomCategory] = useState('');
@@ -59,16 +59,9 @@ export default function ProjectsPage() {
     { key: 'Hosting', options: ['Vercel', 'AWS', 'Netlify', 'Heroku'] }
   ];
 
-  const removeTech = (index) => {
+  const removeTech = (index: any) => {
     setTechStack(techStack.filter((_, i) => i !== index));
   };
-
-  useEffect(() => {
-    fetchUsers();
-    fetchUserProjects();
-  }, []);
-
-
 
 
   const fetchUserProjects = async () => {
@@ -110,6 +103,11 @@ export default function ProjectsPage() {
       console.error('Failed to fetch users:', error);
     }
   };
+
+  useEffect(() => {
+    fetchUsers();
+    fetchUserProjects();
+  }, []);
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -527,7 +525,7 @@ export default function ProjectsPage() {
                   <div className="mb-4">
                     {techStack.length > 0 ? (
                       <div className="space-y-2 mb-4">
-                        {techStack.map((tech, index) => (
+                        {techStack.map((tech: any, index: any) => (
                           <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-2 rounded">
                             <span className="text-sm dark:text-white">
                               <strong>{tech.key}:</strong> {tech.value}
@@ -700,13 +698,13 @@ export default function ProjectsPage() {
                         filteredUsers.map((user) => (
                           <div
                             key={user.id}
-                            onClick={user.role === "ADMIN" ? () => {} : () => toggleMember(user.id, false)}
+                            onClick={user.role === "ADMIN" ? () => { } : () => toggleMember(user.id, false)}
                             className={`cursor-pointer flex items-center justify-between px-3 py-2 rounded-lg transition-all mb-1
                               ${selectedMembers.includes(user.id)
                                 ? "bg-blue-100 dark:bg-blue-900/30"
                                 : "hover:bg-gray-100 dark:hover:bg-gray-700"
                               }`}
-                            >
+                          >
                             <div>
                               <p className="text-sm font-medium dark:text-white">
                                 {user.name}

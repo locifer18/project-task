@@ -12,7 +12,7 @@ export async function PUT(req: NextRequest) {
     // Handle file uploads (you can implement file storage logic here)
     const latestInvoice = formData.get('latestInvoice') as File | null;
     const scopeTitle = formData.get('scopeTitle') as File | null;
-    
+
     // Handle multiple payment history files
     const paymentHistoryFiles: File[] = [];
     let index = 0;
@@ -27,7 +27,7 @@ export async function PUT(req: NextRequest) {
       data: {
         budget: totalBudget,
         paidAmount: paidAmount,
-        remainingAmount: remainingAmount
+        ...(remainingAmount !== undefined ? { remainingAmount } : {})
       }
     });
 
@@ -43,8 +43,8 @@ export async function PUT(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: 'Budget updated successfully',
       data: updatedProjectInfo
     });

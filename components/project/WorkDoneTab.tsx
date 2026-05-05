@@ -198,7 +198,7 @@ export default function WorkDoneTab({ projectId }: any) {
 
                     {task.tags && task.tags.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {task.tags.map((tag, tagIndex) => (
+                        {task.tags.map((tag: any, tagIndex: number) => (
                           <span key={tagIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">
                             #{tag}
                           </span>

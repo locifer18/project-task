@@ -28,28 +28,11 @@ export async function GET(req: Request) {
     const users = await db.user.findMany({
       where: {
         role: { in: ["ADMIN", "MEMBER"] },
-      },
-      include: {
-        workHours: {
-          where: {
-            date: {
-              gte: today,
-              lt: tomorrow
-            }
-          },
-          orderBy: { date: "desc" },
-          take: 1
-        }
-      },
+      }
     });
 
     // Sort users: active (clocked in) first, then inactive
     const sortedUsers = users.sort((a, b) => {
-      const aIsActive = a.workHours?.[0]?.clockOut === '-';
-      const bIsActive = b.workHours?.[0]?.clockOut === '-';
-
-      if (aIsActive && !bIsActive) return -1;
-      if (!aIsActive && bIsActive) return 1;
       return a.name.localeCompare(b.name);
     });
 

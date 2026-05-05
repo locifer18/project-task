@@ -1,8 +1,16 @@
 import db from "@/lib/client";
+import { NextResponse } from "next/dist/server/web/spec-extension/response";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const projectId = searchParams.get("projectId");
+
+    if (!projectId) {
+        return NextResponse.json(
+            { error: "Project ID is required" },
+            { status: 400 }
+        );
+    }
 
     try {
         const info = await db.projectInfo.findUnique({
@@ -22,10 +30,10 @@ export async function POST(req: Request) {
     const { projectId, budget, clientName, projectType, startDate, deadline } = body;
 
     if (!budget || !clientName || !projectType || !startDate || !deadline) {
-      return Response.json(
-        { error: "All fields (budget, clientName, projectType, startDate, deadline) are required." },
-        { status: 400 }
-      );
+        return Response.json(
+            { error: "All fields (budget, clientName, projectType, startDate, deadline) are required." },
+            { status: 400 }
+        );
     }
 
     try {
@@ -78,6 +86,14 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const projectId = searchParams.get("projectId");
+
+
+    if (!projectId) {
+        return NextResponse.json(
+            { error: "Project ID is required" },
+            { status: 400 }
+        );
+    }
 
     try {
         await db.projectInfo.delete({

@@ -8,7 +8,7 @@ export default function FileInputExample() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      ("Selected file:", file.name);
+      console.log("Selected file:", file.name);
     }
   };
 

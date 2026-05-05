@@ -44,6 +44,7 @@ interface Comment {
 
 interface Task {
   id: string;
+  employeeId: string;
   title: string;
   description: string;
   assignee: string;
@@ -115,10 +116,10 @@ export const NewTaskModal: React.FC<{
   if (!isOpen) return null;
 
   const removeAttachment = (index: number) => {
-    setNewTask((prev) => {
+    setNewTask((prev: any) => {
       if (!prev.attachments) return prev;
 
-      const updated = prev.attachments.filter((_, i) => i !== index);
+      const updated = prev.attachments.filter((_: any, i: number) => i !== index);
 
       return {
         ...prev,
@@ -484,7 +485,7 @@ export const NewTaskModal: React.FC<{
               const files = Array.from(e.dataTransfer.files || []);
               if (!files.length) return;
 
-              setNewTask((prev) => {
+              setNewTask((prev: any) => {
                 const existing = prev.attachments ?? [];
 
                 return {
@@ -515,7 +516,7 @@ export const NewTaskModal: React.FC<{
                 const files = Array.from(e.target.files || []);
                 if (!files.length) return;
 
-                setNewTask((prev) => {
+                setNewTask((prev: any) => {
                   const existing = prev.attachments ?? [];
 
                   return {
@@ -532,9 +533,9 @@ export const NewTaskModal: React.FC<{
           </div>
 
 
-          {newTask.attachments?.length > 0 && (
+          {newTask?.attachments && newTask.attachments.length > 0 && (
             <div className="mt-3 space-y-2">
-              {newTask.attachments.map((file, index) => (
+              {newTask.attachments!.map((file, index) => (
                 <div
                   key={`${file.name}-${index}`}
                   className="flex items-center justify-between text-sm px-4 pr-3 py-3.5 rounded-lg bg-white dark:bg-[#111] border border-gray-300 dark:border-gray-800 dark:text-white text-gray-900">
@@ -1345,56 +1346,6 @@ export default function KanbanBoard() {
     setDraggedTask(task);
   };
 
-  // const handleUpdateTask = async () => {
-  //   if (!taskToEdit) return;
-
-  //   try {
-  //     setTransition(true)
-  //     const formData = new FormData();
-  //     formData.append("id", taskToEdit.id);
-  //     formData.append("title", newTask.title.trim());
-  //     formData.append("description", newTask.description.trim());
-  //     formData.append("assignee", assigne);
-  //     formData.append("priority", newTask.priority);
-  //     formData.append("dueDate", newTask.dueDate);
-  //     formData.append("status", newTask.status);
-  //     formData.append("tags", newTask.tags.join(","));
-  //     formData.append("projectId", newTask.projectId)
-
-  //     if (newTask.attachments?.length) {
-  //       newTask.attachments.forEach((file) => {
-  //         formData.append("attachment", file);
-  //       });
-  //     }
-
-  //     const res = await fetch("/api/kanban/task", {
-  //       method: "PUT",
-  //       body: formData,
-  //     });
-
-  //     const data = await res.json();
-  //     if (!res.ok) {
-  //       toast.error("Update failed");
-  //       return;
-  //     }
-
-  //     setTasks(prev =>
-  //       prev.map(t => (t.id === data.task.id ? data.task : t))
-  //     );
-
-  //     setSelectedTask(data.task);
-  //     setShowNewTaskModal(false);
-  //     setTaskMode("create");
-  //     setTaskToEdit(null);
-  //     toast.success("Task updated");
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error("Something went wrong");
-  //   }
-  //   finally {
-  //     setTransition(false)
-  //   }
-  // };
 
   const handleUpdateTask = async () => {
     if (!taskToEdit) return;
@@ -1554,7 +1505,7 @@ export default function KanbanBoard() {
       status: task.status,
       attachments: null,
       projectId: task?.Project?.id || "",
-      employeeId: task.employeeId,
+      employeeId: task?.employeeId,
     });
 
     const res = await fetch(`/api/kanban/multi-task-group/${task.id}`);
@@ -1825,75 +1776,6 @@ export default function KanbanBoard() {
     fetchReports(selectedTask.id);
   }, [selectedTask?.id]);
 
-  // const handleCreateTask = async () => {
-  //   if (!newTask.title.trim()) return;
-
-  //   try {
-  //     setTransition(true)
-  //     const formData = new FormData();
-  //     const assigneeName = assigne || "Unassigned";
-  //     const employeeId = taskemployee || currentUser.employeeId || "";
-
-  //     formData.append("title", newTask.title.trim());
-  //     formData.append("description", newTask.description.trim());
-  //     formData.append("assignee", assigneeName);
-  //     formData.append("employeeId", employeeId);
-  //     formData.append("projectId", newTask.projectId)
-  //     formData.append(
-  //       "assigneeAvatar",
-  //       assigneeName !== "Unassigned"
-  //         ? assigneeName
-  //           .split(" ")
-  //           .map(n => n[0])
-  //           .join("")
-  //           .toUpperCase()
-  //         : ""
-  //     );
-  //     formData.append("priority", newTask.priority);
-  //     formData.append("dueDate", newTask.dueDate);
-  //     formData.append("status", newTask.status);
-  //     formData.append("tags", newTask.tags.join(","));
-
-  //     if (newTask.attachments?.length) {
-  //       newTask.attachments.forEach((file) => {
-  //         formData.append("attachment", file);
-  //       });
-  //     }
-
-  //     const res = await fetch("/api/kanban/task", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-
-  //     const data = await res.json();
-
-  //     if (!res.ok) {
-  //       console.error("Create Task Error:", data);
-  //       return;
-  //     }
-
-  //     setTasks(prev => [...prev, data.task]);
-
-  //     setShowNewTaskModal(false);
-  //     setNewTask({
-  //       title: "",
-  //       description: "",
-  //       priority: "medium",
-  //       dueDate: "",
-  //       tags: [],
-  //       status: "assigned",
-  //       attachments: null,
-  //       projectId: "",
-  //     });
-
-  //   } catch (error) {
-  //     console.error("Create Task Exception:", error);
-  //   }
-  //   finally {
-  //     setTransition(false);
-  //   }
-  // };
-
   const handleCreateTask = async () => {
     if (!newTask.title.trim()) return;
 
@@ -1941,7 +1823,7 @@ export default function KanbanBoard() {
           taskId: data.task.id,
           userId: user.userId,
           name: user.name,
-          role: user.role,
+          // role: user?.role,
         });
       }
 
@@ -2110,7 +1992,7 @@ export default function KanbanBoard() {
                       assignee: currentUser.name,
                       assigneeAvatar: currentUser.name
                         .split(" ")
-                        .map(n => n[0])
+                        .map((n: string) => n[0])
                         .join("")
                         .toUpperCase(),
                     }));
