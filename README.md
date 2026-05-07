@@ -14,6 +14,7 @@ https://project-task-ki6a.vercel.app/
 - Forgot password with OTP reset flow
 - bcrypt password hashing
 
+
 ### Role-Based Access Control
 | Role | Capabilities |
 |------|-------------|
