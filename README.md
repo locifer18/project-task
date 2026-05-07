@@ -8,7 +8,6 @@ https://project-task-ki6a.vercel.app/
 ---
 ## Features
 
-
 ### Authentication & Security
 - OTP-based email verification on signup
 - JWT sessions stored in HTTP-only cookies
