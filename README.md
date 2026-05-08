@@ -6,7 +6,6 @@ A full-stack **Project & Task Management System** built with **Next.js 16**, **P
 https://project-task-ki6a.vercel.app/
 
 ---
-
 ## Features
 
 ### Authentication & Security
