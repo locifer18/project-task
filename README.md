@@ -6,8 +6,7 @@ A full-stack **Project & Task Management System** built with **Next.js 16**, **P
 https://project-task-ki6a.vercel.app/
 
 ---
-## 
-Features
+## Features
 ### Authentication & Security
 - OTP-based email verification on signup
 - JWT sessions stored in HTTP-only cookies
