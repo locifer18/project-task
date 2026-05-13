@@ -16,7 +16,6 @@ https://project-task-ki6a.vercel.app/
 
 ### Role-Based Access Control
 
-
 | Role | Capabilities |
 |------|-------------|
 | **ADMIN** | Create & manage all projects, assign tasks to any member, manage team, view all stats |
