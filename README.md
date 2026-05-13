@@ -1,6 +1,7 @@
 # Team Task Manager
 
-A full-stack **Project & Task Management System** built with **Next.js 16**, **PostgreSQL**, and **Prisma ORM** — featuring role-based access control, a drag-and-drop Kanban board, real-time notifications, file uploads, and a rich project overview dashboard.
+A full
+-stack **Project & Task Management System** built with **Next.js 16**, **PostgreSQL**, and **Prisma ORM** — featuring role-based access control, a drag-and-drop Kanban board, real-time notifications, file uploads, and a rich project overview dashboard.
 
 **Live Link**
 https://project-task-ki6a.vercel.app/
