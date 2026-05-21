@@ -11,6 +11,5 @@ export function GET(){
 
 
     } catch{
-
     }
 }
