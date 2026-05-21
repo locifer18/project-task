@@ -8,8 +8,6 @@ export function GET(){
                 phone: true,
             }
         })
-
-
     } catch{
     }
 }
