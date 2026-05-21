@@ -9,6 +9,6 @@ export function GET(){
             }
         })
     } catch{
-        
+        return new Response("Failed to fetch users", { status: 500 });
     }
 }
