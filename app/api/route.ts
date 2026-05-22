@@ -8,7 +8,6 @@ export function GET(){
                 phone: true,
             }
         })
-        
     } catch{
         return new Response("Failed to fetch users", { status: 500 });
     }
