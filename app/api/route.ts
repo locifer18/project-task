@@ -8,6 +8,7 @@ export function GET(){
                 phone: true,
             }
         })
+        return new Response(JSON.stringify(user), { status: 200 });
     } catch{
         return new Response("Failed to fetch users", { status: 500 });
     }
